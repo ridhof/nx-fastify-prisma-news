@@ -8,6 +8,20 @@ This project was generated using [Nx](https://nx.dev).
 
 🔎 **Smart, Fast and Extensible Build System**
 
+## What is Newfeed?
+
+Newfeed is one of study case used for learning Nx, Fastify, and Prisma.
+
+References:
+1. [Quick Start using Fastify](https://www.fastify.io/)
+2. [Complex Starting using Fastify](https://www.fastify.io/docs/latest/Guides/Getting-Started/)
+3. [Complex Starting using Fastify with TypeScript](https://www.fastify.io/docs/latest/Reference/TypeScript/)
+4. [Using Prisma on NX](https://www.prisma.io/blog/full-stack-typesafety-with-angular-nest-nx-and-prisma-CcMK7fbQfTWc)
+5. [Using Prisma on NX - another reference](https://about.lovia.life/docs/engineering/nestjs/nestjs-with-prisma-orm-mariadb-database-and-graphql-api/)
+6. [Using Fastify with TypeScript, the blog](https://daily.dev/blog/how-to-build-blazing-fast-apis-with-fastify-and-typescript)
+7. [Using Fastify with TypeScript, the source code](https://github.com/lawrenceagles/fastity-typescript-blog/blob/master/src/index.ts)
+8. [Connecting Prisma with MySQL](https://www.prisma.io/docs/concepts/database-connectors/mysql)
+
 ## Adding capabilities to your workspace
 
 Nx supports many plugins which add capabilities for developing different types of applications and different tools.
