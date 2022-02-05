@@ -1,0 +1,52 @@
+{
+  "root": "packages/newfeed-api",
+  "sourceRoot": "packages/newfeed-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/newfeed-api",
+        "main": "packages/newfeed-api/src/main.ts",
+        "tsConfig": "packages/newfeed-api/tsconfig.app.json",
+        "assets": ["packages/newfeed-api/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "packages/newfeed-api/src/environments/environment.ts",
+              "with": "packages/newfeed-api/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "newfeed-api:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/newfeed-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/newfeed-api"],
+      "options": {
+        "jestConfig": "packages/newfeed-api/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
