@@ -6,6 +6,7 @@
 //  import * as express from 'express';
 import { fastify } from 'fastify';
 import ProductRoute from './routes/product';
+import ArticleRoute from './routes/article';
 
 //  const app = express();
 const app = fastify({ logger: true });
@@ -16,6 +17,7 @@ app.get('/api', async (request, reply) => {
 });
 
 app.register(ProductRoute);
+app.register(ArticleRoute);
  
 const port = process.env.port || 4444;
 const start = async () => {

@@ -18,3 +18,29 @@ model Product {
   price       Int
   sku         String
 }
+
+model NewsArticle {
+  id          Int           @id @default(autoincrement())
+  title       String
+  content     String
+  status      ArticleStatus @default(draft)
+  topics      Topic[]       @relation(references: [id])
+  createdOn   DateTime      @default(now())
+  modifiedOn  DateTime      @default(now())
+  deleted     Boolean       @default(false)
+}
+
+model Topic {
+  id          Int           @id @default(autoincrement())
+  name        String
+  articles    NewsArticle[] @relation(references: [id])
+  createdOn   DateTime      @default(now())
+  modifiedOn  DateTime      @default(now())
+  deleted     Boolean       @default(false)
+}
+
+enum ArticleStatus {
+  draft
+  deleted
+  published
+}
