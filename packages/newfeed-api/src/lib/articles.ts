@@ -1,6 +1,10 @@
 import { PrismaClient, NewsArticle, ArticleStatus, Topic } from '@prisma/client'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+    datasources: {
+        db: { url: `${process.env.DATABASE_PROVIDER}://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}` }
+    }
+})
 
 interface ResponseFormatArray {
     count: number,
