@@ -1,4 +1,4 @@
-import { PrismaClient, NewsArticle, ArticleStatus, Topic } from '@prisma/client'
+import { PrismaClient, NewsArticle, ArticleStatus } from '@prisma/client'
 
 const prisma = new PrismaClient({
     datasources: {
@@ -93,8 +93,8 @@ const getSingleArticle = async function (articleID: number): Promise<ResponseFor
         total_pages: article ? 1 : 0,
         page: 1,
         limit: 1,
-        error: false,
-        error_message: ""
+        error: error,
+        error_message: errorMessage
     };
     return response;
 }
@@ -137,7 +137,7 @@ const createArticle = async function (newTitle: string, newContent: string, newS
         })
     } catch (err) {
         error = true;
-        errorMessage = "Unable to create article";
+        errorMessage = err;
     }
 
     const response = {
@@ -146,8 +146,8 @@ const createArticle = async function (newTitle: string, newContent: string, newS
         total_pages: article ? 1 : 0,
         page: 1,
         limit: 1,
-        error: false,
-        error_message: ""
+        error: error,
+        error_message: errorMessage
     };
     return response;
 }
@@ -206,7 +206,7 @@ const updateArticle = async function (articleID: number, newTitle: string, newCo
         })
     } catch (err) {
         error = true;
-        errorMessage = "Unable to update article";
+        errorMessage = err;
     }
 
     const response = {
@@ -215,8 +215,8 @@ const updateArticle = async function (articleID: number, newTitle: string, newCo
         total_pages: article ? 1 : 0,
         page: 1,
         limit: 1,
-        error: false,
-        error_message: ""
+        error: error,
+        error_message: errorMessage
     };
     return response;
 }
@@ -231,7 +231,7 @@ const deleteArticle = async function (articleID: number): Promise<ResponseFormat
         });
     } catch (err) {
         error = true;
-        errorMessage = "Unable to delete article";
+        errorMessage = err;
     }
 
     const response = {
@@ -240,8 +240,8 @@ const deleteArticle = async function (articleID: number): Promise<ResponseFormat
         total_pages: 0,
         page: 1,
         limit: 1,
-        error: false,
-        error_message: ""
+        error: error,
+        error_message: errorMessage
     };
     return response;
 }

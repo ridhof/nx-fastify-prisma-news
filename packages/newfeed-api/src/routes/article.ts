@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyRequest, FastifyPluginOptions, FastifyPluginAsync } from 'fastify';
+import { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import { getArticles, getSingleArticle, createArticle, updateArticle, deleteArticle } from '../lib/articles';
 
@@ -28,7 +28,7 @@ interface ArticleUpdate {
     topics: { id: number }[]
 }
 
-const ArticleRoute: FastifyPluginAsync = async (server: FastifyInstance, options: FastifyPluginOptions) => {
+const ArticleRoute: FastifyPluginAsync = async (server: FastifyInstance) => {
     server.get<{Querystring: ListQueryString}>('/articles', {}, async (request, reply) => {
         try {
             const { page, limit, topicID, status } = request.query;
