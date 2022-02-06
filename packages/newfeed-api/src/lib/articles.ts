@@ -95,30 +95,151 @@ const getSingleArticle = async function (articleID: number): Promise<ResponseFor
     return response;
 }
 
-const createArticle = async function (newTitle: string, newContent: string, newStatus: ArticleStatus, newTopics: Topic[] ): Promise<NewsArticle> {
-    const article = await prisma.newsArticle.create({
-        data: {
-            title: newTitle,
-            content: newContent,
-            status: newStatus,
-            topics: {
-                connect: newTopics.map(topic => { return { id: topic.id } })
+const createArticle = async function (newTitle: string, newContent: string, newStatus: string, newTopics: { id: number }[] ): Promise<ResponseFormatArray> {
+    let article = null;
+    let error = false;
+    let errorMessage = "";
+
+    let statusValid = false;
+    if (newStatus == ArticleStatus.deleted || newStatus == ArticleStatus.draft || newStatus == ArticleStatus.published) {
+        statusValid = true
+    }
+    if (!statusValid) {
+        const response = {
+            count: article ? 1 : 0,
+            data: article,
+            total_pages: article ? 1 : 0,
+            page: 1,
+            limit: 1,
+            error: false,
+            error_message: "Please select a valid status."
+        };
+        return response;
+    }
+
+    try {
+        article = await prisma.newsArticle.create({
+            data: {
+                title: newTitle,
+                content: newContent,
+                status: <ArticleStatus>newStatus,
+                topics: {
+                    connect: newTopics.map(topic => { return { id: topic.id } })
+                }
+            },
+            include: {
+                topics: true
             }
-        }
-    })
-    return article
+        })
+    } catch (err) {
+        error = true;
+        errorMessage = "Unable to create article";
+    }
+
+    const response = {
+        count: article ? 1 : 0,
+        data: article,
+        total_pages: article ? 1 : 0,
+        page: 1,
+        limit: 1,
+        error: false,
+        error_message: ""
+    };
+    return response;
 }
 
-const updateArticle = async function (articleID: number, newTitle: string, newContent: string, newStatus: ArticleStatus ): Promise<NewsArticle> {
-    const article = await prisma.newsArticle.update({
-        where: { id: articleID },
-        data: {
-            title: newTitle,
-            content: newContent,
-            status: newStatus  
-        }
-    })
-    return article
+const updateArticle = async function (articleID: number, newTitle: string, newContent: string, newStatus: string, newTopics: { id: number }[] ): Promise<ResponseFormatArray> {
+    let article = null;
+    let error = false;
+    let errorMessage = "";
+
+    let statusValid = false;
+    if (newStatus == ArticleStatus.deleted || newStatus == ArticleStatus.draft || newStatus == ArticleStatus.published) {
+        statusValid = true
+    }
+    if (!statusValid) {
+        const response = {
+            count: article ? 1 : 0,
+            data: article,
+            total_pages: article ? 1 : 0,
+            page: 1,
+            limit: 1,
+            error: false,
+            error_message: "Please select a valid status."
+        };
+        return response;
+    }
+    
+    try {
+        const existingArticle = await prisma.newsArticle.findFirst({
+            where: { id: articleID },
+            include: {
+                topics: true
+            }
+        })
+
+        article = await prisma.newsArticle.update({
+            where: { id: articleID },
+            data: {
+                topics: {
+                    disconnect: existingArticle.topics.map(topic => { return { id: topic.id } })
+                }
+            }
+        })
+        article = await prisma.newsArticle.update({
+            where: { id: articleID },
+            data: {
+                title: newTitle,
+                content: newContent,
+                status: <ArticleStatus>newStatus,
+                topics: {
+                    connect: newTopics.map(topic => { return { id: topic.id } })
+                }
+            },
+            include: {
+                topics: true
+            }
+        })
+    } catch (err) {
+        error = true;
+        errorMessage = "Unable to update article";
+    }
+
+    const response = {
+        count: article ? 1 : 0,
+        data: article,
+        total_pages: article ? 1 : 0,
+        page: 1,
+        limit: 1,
+        error: false,
+        error_message: ""
+    };
+    return response;
 }
 
-export { getArticles, getSingleArticle, createArticle, updateArticle }
+const deleteArticle = async function (articleID: number): Promise<ResponseFormatArray> {
+    let error = false;
+    let errorMessage = "";
+
+    try {
+        await prisma.newsArticle.delete({
+            where: { id: articleID }
+        });
+    } catch (err) {
+        error = true;
+        errorMessage = "Unable to delete article";
+    }
+
+    const response = {
+        count: 0,
+        data: null,
+        total_pages: 0,
+        page: 1,
+        limit: 1,
+        error: false,
+        error_message: ""
+    };
+    return response;
+}
+
+export { getArticles, getSingleArticle, createArticle, updateArticle, deleteArticle }
