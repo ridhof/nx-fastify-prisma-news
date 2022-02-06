@@ -16,6 +16,16 @@ interface ResponseFormatArray {
     error_message: string
 };
 
+interface ResponseFormatObject {
+    count: number,
+    data: Topic,
+    total_pages: number,
+    page: number,
+    limit: number,
+    error: boolean,
+    error_message: string
+};
+
 const getTopics = async function (page: number, limit: number): Promise<ResponseFormatArray> {
     const skip = (page - 1) * limit;
     const take = limit;
@@ -52,7 +62,7 @@ const getTopics = async function (page: number, limit: number): Promise<Response
     return response;
 }
 
-const getSingleTopic = async function (topicID: number): Promise<ResponseFormatArray> {
+const getSingleTopic = async function (topicID: number): Promise<ResponseFormatObject> {
     let topic = null;
     let error = false;
     let errorMessage = "";
@@ -76,7 +86,7 @@ const getSingleTopic = async function (topicID: number): Promise<ResponseFormatA
     return response;
 }
 
-const createTopic = async function (newName: string ): Promise<ResponseFormatArray> {
+const createTopic = async function (newName: string ): Promise<ResponseFormatObject> {
     let topic = null;
     let error = false;
     let errorMessage = "";
@@ -100,7 +110,7 @@ const createTopic = async function (newName: string ): Promise<ResponseFormatArr
     return response
 }
 
-const updateTopic = async function (oldId: number, newName: string): Promise<ResponseFormatArray> {
+const updateTopic = async function (oldId: number, newName: string): Promise<ResponseFormatObject> {
     let topic = null;
     let error = false;
     let errorMessage = "";
@@ -127,7 +137,7 @@ const updateTopic = async function (oldId: number, newName: string): Promise<Res
     return response
 };
 
-const deleteTopic = async function (oldId: number): Promise<ResponseFormatArray> {
+const deleteTopic = async function (oldId: number): Promise<ResponseFormatObject> {
     let error = false;
     let errorMessage = "";
  

@@ -16,6 +16,16 @@ interface ResponseFormatArray {
     error_message: string
 };
 
+interface ResponseFormatObject {
+    count: number,
+    data: NewsArticle,
+    total_pages: number,
+    page: number,
+    limit: number,
+    error: boolean,
+    error_message: string
+};
+
 const getArticles = async function (page: number, limit: number, filterByTopic: boolean, topicID: number, filterByStatus: boolean, articleStatus: string): Promise<ResponseFormatArray> {
     const skip = (page - 1) * limit;
     const take = limit;
@@ -75,7 +85,7 @@ const getArticles = async function (page: number, limit: number, filterByTopic: 
     return response;
 }
 
-const getSingleArticle = async function (articleID: number): Promise<ResponseFormatArray> {
+const getSingleArticle = async function (articleID: number): Promise<ResponseFormatObject> {
     let article = null;
     let error = false;
     let errorMessage = "";
@@ -99,7 +109,7 @@ const getSingleArticle = async function (articleID: number): Promise<ResponseFor
     return response;
 }
 
-const createArticle = async function (newTitle: string, newContent: string, newStatus: string, newTopics: { id: number }[] ): Promise<ResponseFormatArray> {
+const createArticle = async function (newTitle: string, newContent: string, newStatus: string, newTopics: { id: number }[] ): Promise<ResponseFormatObject> {
     let article = null;
     let error = false;
     let errorMessage = "";
@@ -152,7 +162,7 @@ const createArticle = async function (newTitle: string, newContent: string, newS
     return response;
 }
 
-const updateArticle = async function (articleID: number, newTitle: string, newContent: string, newStatus: string, newTopics: { id: number }[] ): Promise<ResponseFormatArray> {
+const updateArticle = async function (articleID: number, newTitle: string, newContent: string, newStatus: string, newTopics: { id: number }[] ): Promise<ResponseFormatObject> {
     let article = null;
     let error = false;
     let errorMessage = "";
@@ -221,7 +231,7 @@ const updateArticle = async function (articleID: number, newTitle: string, newCo
     return response;
 }
 
-const deleteArticle = async function (articleID: number): Promise<ResponseFormatArray> {
+const deleteArticle = async function (articleID: number): Promise<ResponseFormatObject> {
     let error = false;
     let errorMessage = "";
 
