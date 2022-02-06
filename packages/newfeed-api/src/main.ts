@@ -7,6 +7,7 @@
 import { fastify } from 'fastify';
 import ProductRoute from './routes/product';
 import ArticleRoute from './routes/article';
+import TopicRoute from './routes/topic';
 
 //  const app = express();
 const app = fastify({ logger: true });
@@ -18,6 +19,7 @@ app.get('/api', async (request, reply) => {
 
 app.register(ProductRoute);
 app.register(ArticleRoute);
+app.register(TopicRoute);
  
 const port = process.env.port || 4444;
 const start = async () => {
