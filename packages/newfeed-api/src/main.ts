@@ -5,7 +5,6 @@
 
 //  import * as express from 'express';
 import { fastify } from 'fastify';
-import ProductRoute from './routes/product';
 import ArticleRoute from './routes/article';
 import TopicRoute from './routes/topic';
 
@@ -17,7 +16,6 @@ app.get('/api', async (request, reply) => {
     return reply.send({ message: 'Welcome to fastify-ftw!' });
 });
 
-app.register(ProductRoute);
 app.register(ArticleRoute);
 app.register(TopicRoute);
  
